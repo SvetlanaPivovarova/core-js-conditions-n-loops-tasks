@@ -355,8 +355,62 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const merge = (arr1, arr2) => {
+    let i = 0;
+    let j = 0;
+
+    const results = [];
+
+    while (i < arr1.length && j < arr2.length) {
+      if (arr2[j] > arr1[i]) {
+        results[results.length] = arr1[i];
+        i += 1;
+      } else {
+        results[results.length] = arr2[j];
+        j += 1;
+      }
+    }
+
+    while (i < arr1.length) {
+      results[results.length] = arr1[i];
+      i += 1;
+    }
+
+    while (j < arr2.length) {
+      results[results.length] = arr2[j];
+      j += 1;
+    }
+
+    return results;
+  };
+
+  if (arr.length <= 1) return arr;
+
+  const mergeSort = (mergedArr) => {
+    if (mergedArr.length <= 1) return mergedArr;
+
+    const mid = Math.floor(mergedArr.length / 2);
+    const left = [];
+    const right = [];
+
+    for (let i = 0, j = 0; i < mergedArr.length; i += 1) {
+      if (i < mid) left[i] = mergedArr[i];
+      else {
+        right[j] = mergedArr[i];
+        j += 1;
+      }
+    }
+
+    return merge(mergeSort(left), mergeSort(right));
+  };
+
+  const sorted = mergeSort(arr);
+  const initialArr = arr;
+
+  for (let i = 0; i < sorted.length; i += 1) initialArr[i] = sorted[i];
+
+  return sorted;
 }
 
 /**
